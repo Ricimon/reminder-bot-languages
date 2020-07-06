@@ -60,7 +60,7 @@ class Languages(Base):
     code = Column( String(2), nullable=False )
 
 
-Base.metadata.bind = engine
+Base.metadata.create_all(bind=engine)
 
 Session = sessionmaker(bind=engine)
 session = Session()
@@ -76,10 +76,10 @@ strings_table = Table('strings', Base.metadata,
 inserted = []
 
 try:
-    strings_table.drop()
+    strings_table.drop(engine)
 except:
     pass
-strings_table.create()
+strings_table.create(engine)
 
 session.query(Languages).delete(synchronize_session='fetch')
 
